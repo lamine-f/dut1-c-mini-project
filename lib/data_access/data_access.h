@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 typedef enum {
-    CLASSROOMS,
+    CLASSES,
     COURSES,
     MARKS,
     STUDENTS,

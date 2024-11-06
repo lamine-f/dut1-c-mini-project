@@ -4,8 +4,8 @@
 
 #include <stdio.h>
 #include "../data_access.h"
-#include "../../../adapters/persistence/classroom_file_persistence.h"
-#include "../../../domain/classroom/classroom.h"
+#include "../../../adapters/persistence/class_file_persistence.h"
+#include "../../../domain/class/class_.h"
 #include "../vector/data_access_vector.h"
 
 static DataAccessVector data_access_vector_instance = NULL;
@@ -19,8 +19,8 @@ load_storage_config (void)
     data_access_vector_instance = create_data_access_vector();
     data_access_vector_write_element(
         data_access_vector_instance,
-        CLASSROOMS,
-        create_data_access(CLASSROOMS, "storage/CLASSROOMS.csv")
+        CLASSES,
+        create_data_access(CLASSES, "storage/CLASSES.csv")
     );
     data_access_vector_write_element(
         data_access_vector_instance,

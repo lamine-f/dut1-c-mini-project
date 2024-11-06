@@ -2,7 +2,7 @@
 // Created by lord on 03/11/2024.
 //
 
-#include "classroom_file_persistence.h"
+#include "class_file_persistence.h"
 #include <stdio.h>
 #define FORMAT "%d\t%s\t%d\n"
 
@@ -11,15 +11,15 @@ DataAccess get_data_access() {
     if (access == NULL)
         access = data_access_vector_read_element(
             get_storage_config(),
-            CLASSROOMS
+            CLASSES
         );
     return access;
 }
 
-Classroom
+Class
 loadFromFile(int code)
 {
-    Classroom classroom = create_empty_classroom();
+    Class class = create_empty_class();
     FILE *file = data_access_open_file(get_data_access(), "r");
     if (file) {
         while (!feof(file)) {
@@ -27,14 +27,14 @@ loadFromFile(int code)
             fgets(line,1023,file);
             int current_code;
             char name[MAX_NAME_LENGTH];
-            ClassroomLevel level;
+            ClassLevel level;
             sscanf(line, FORMAT, &current_code , name, &level);
 
             if (current_code == code) {
-                classroom_set_code(classroom, current_code);
-                classroom_set_name(classroom, name);
-                classroom_set_level(classroom, level);
-                return classroom;
+                class_set_code(class, current_code);
+                class_set_name(class, name);
+                class_set_level(class, level);
+                return class;
             }
         }
         data_access_close_file(access);
@@ -60,25 +60,25 @@ max_id(void)
 }
 
 void
-saveToFile(Classroom classroom)
+saveToFile(Class class)
 {
-    if (loadFromFile (classroom_code(classroom)) != NULL) {
-        fprintf(stderr,"Classroom with code=%d is already saved \n", classroom_code(classroom));
+    if (loadFromFile (class_code(class)) != NULL) {
+        fprintf(stderr,"Class with code=%d is already saved \n", class_code(class));
         return;
     }
     FILE* file = data_access_open_file(get_data_access(), "a");
     if (file) {
         fprintf(file, FORMAT,
-            classroom_code(classroom),
-            classroom_name(classroom),
-            classroom_level(classroom)
+            class_code(class),
+            class_name(class),
+            class_level(class)
         );
         data_access_close_file(access);
     }
 }
 
-ClassroomPersistencePort create_classroom_persistence_port() {
-    ClassroomPersistencePort persistence;
+ClassPersistencePort create_class_persistence_port() {
+    ClassPersistencePort persistence;
     persistence.save = saveToFile;
     persistence.load = loadFromFile;
     persistence.max_id = max_id;

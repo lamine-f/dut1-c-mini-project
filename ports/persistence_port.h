@@ -5,12 +5,12 @@
 #ifndef PERSISTENCE_PORT_H
 #define PERSISTENCE_PORT_H
 
-#include "../domain/classroom/classroom.h"
+#include "../domain/class/class_.h"
 
 typedef struct {
-    void (*save)(const Classroom classroom);
-    Classroom (*load)(int code);
+    void (*save)(const Class class);
+    Class (*load)(int code);
     int (*max_id)(void);
-} ClassroomPersistencePort;
+} ClassPersistencePort;
 
 #endif // PERSISTENCE_PORT_H
